@@ -1,6 +1,6 @@
 import java.math.BigDecimal;
 
-public enum Euro implement devise {
+public enum Euro implements Devise {
 
 	ONECENT (new BigDecimal ("0.01")), 
 	TWOCENTS (new BigDecimal ("0.02")), 
@@ -14,7 +14,7 @@ public enum Euro implement devise {
 	private final BigDecimal value;
 
 	Euro(BigDecimal valeur){
-		valeur.compareTo (BigDecimal.ZERO) > 0;
+		assert valeur.compareTo (BigDecimal.ZERO) > 0;
 		value=valeur;
 	}
 
@@ -25,7 +25,5 @@ public enum Euro implement devise {
 	public String toString(){
 		return value + "€";
 	}
-
-
 
 }

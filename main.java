@@ -7,5 +7,16 @@ class main{
 		Product fanta = new Drink("pepsi",new BigDecimal("0.85"));  
 		//System.out.println(coca.toString());
 		System.out.println(fanta.toString());
+		
+		testEuro();
+	}
+	
+	static void testEuro(){
+		System.out.println(Euro.TWOEUROS);
+		
+		for (int i = 0; i<Euro.values().length; i++)
+		{
+			System.out.println(Euro.values()[i]);
+		}
 	}
 }
