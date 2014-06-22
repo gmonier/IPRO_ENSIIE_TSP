@@ -1,6 +1,6 @@
 import java.math.BigDecimal;
 
-public abstract class Product{
+public class Product{
 
 	protected String name;
 	protected BigDecimal price;
@@ -11,13 +11,14 @@ public abstract class Product{
 	}
 
 	public String getName(){
-
 		return name;
-	
 	}
 
-	public BigDecimal getPrice(){
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
+    public BigDecimal getPrice(){
 		return price;
 	}
 

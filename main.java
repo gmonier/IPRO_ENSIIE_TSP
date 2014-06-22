@@ -1,5 +1,4 @@
 import java.math.BigDecimal;
-import static org.junit.Assert.*;
 
 class main{
 
@@ -11,8 +10,8 @@ class main{
 		System.out.println(fanta.toString());
 
 
-		testEuro();
-        testDrinkMachine();
+		//testEuro();
+        testVendingMachine();
 	}
 	
 	static void testEuro(){
@@ -25,11 +24,30 @@ class main{
 		}
 	}
 
-    static void testDrinkMachine(){
-        System.out.println("Test Drink Machine");
+    static void testVendingMachine(){
+        System.out.println("Test Vending Machine");
         //Integer lol = null;
         //assertNotNull("lol can't be null", lol);
-        DrinkMachine machine = new DrinkMachine<Euro>(Euro.ONECENT);
-        machine.printDevise();
+        VendingMachine machine = new VendingMachine<Euro>();
+        machine.addDrink("Coca", new BigDecimal("0.4"),15 );
+        machine.printVendingMachine();
+        machine.addFood("mars", new BigDecimal("0.9"),25 );
+        machine.printVendingMachine();
+        machine.addProduct("Davidch's mother", new BigDecimal("0.0000000000001"), 1);
+        machine.printVendingMachine();
+        machine.addDrink("Coca zero", new BigDecimal("0.5"),125 );
+        machine.addFood("mars light", new BigDecimal("0.9999"),255 );
+        machine.addProduct("Davidch's father", new BigDecimal("1000"), 1);
+        machine.printVendingMachine();
+        machine.printVendingMachineDetails();
+        System.out.println("Suppression de tout");
+        machine.deleteProduct("Coca");
+        machine.deleteProduct("j'existe pas");
+        machine.deleteProduct("mars");
+        machine.deleteProduct("Davidch's mother");
+        machine.deleteProduct("Coca zero");
+        machine.deleteProduct("mars light");
+        machine.deleteProduct("Davidch's father");
+        machine.printVendingMachine();
     }
 }

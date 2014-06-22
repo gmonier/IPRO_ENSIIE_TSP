@@ -47,7 +47,7 @@ public abstract class GenericMachine<I, D extends Enum & Devise>{
         return itemsAmount.get(item);
     }
 
-    public void addAvailableCoin( D availableCoin) {
+    public void addAvailableCoin(D availableCoin) {
         this.availableCoins.add(availableCoin);
     }
 
