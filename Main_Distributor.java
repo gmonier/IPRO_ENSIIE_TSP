@@ -6,7 +6,7 @@ public class Main_Distributor {
 	public static void main(String[] args){
 		
 		
-		Formulaire formulaire = new Formulaire();
+		FormCurrency formulaire = new FormCurrency();
 
 		
 		

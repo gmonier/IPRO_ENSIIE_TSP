@@ -34,7 +34,7 @@ public class Distrib extends JPanel implements ActionListener{
 		
 		selec.setBorder(BorderFactory.createTitledBorder("Produits"));
 		ScrollPane scrollPane1 = new ScrollPane();
-		InitButton(machine.getProducts(),selec);	
+		initButtonProducts(machine.getProducts(),selec);	
 		scrollPane1.add(selec);
 		
 
@@ -65,7 +65,7 @@ public class Distrib extends JPanel implements ActionListener{
 	}
 	
 	
-	void InitButton(ArrayList<String> list,JPanel panel){
+	void initButtonProducts(ArrayList<String> list,JPanel panel){
 		
 		for (String name : list){
 			JButton button = new JButton(name+" : "+String.valueOf(machine.getProductPrice(name)));
@@ -73,10 +73,10 @@ public class Distrib extends JPanel implements ActionListener{
 			button.addActionListener(this); // implémenter un listener pour les produits
 
 		}
-		SetProductQuantity(list);
+		setProductQuantity(list);
 	}
 	
-	void SetProductQuantity(ArrayList<String> list){
+	void setProductQuantity(ArrayList<String> list){
 		
 		admin.removeAll();
 		for (String name : list){
@@ -108,6 +108,7 @@ public class Distrib extends JPanel implements ActionListener{
 		}
 		
 	}
+	
 	
 
 

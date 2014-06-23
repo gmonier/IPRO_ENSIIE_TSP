@@ -8,7 +8,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
-public class Formulaire extends Panel implements ActionListener,ListSelectionListener{
+public class FormProducts extends Panel implements ActionListener,ListSelectionListener{
 	
 	protected JList <String> laListe;
 	protected DefaultListModel <String> listeModel;
@@ -18,58 +18,32 @@ public class Formulaire extends Panel implements ActionListener,ListSelectionLis
 	protected String typeofproduct="Drink";
 	private JFrame form ;
 	private VendingMachine machine;
-	protected enum ProgressState{
-		choiceOfDevise,
-		initProducts;
-	}
-	protected ProgressState progressState;
-	
-	
-	
-	
-	public Formulaire(){
+
+		
+	public FormProducts(VendingMachine machine){
 		super();
+		this.machine=machine;
 		form =  new JFrame();
 		form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		form.setResizable(false);
-		
-		progressState=ProgressState.initProducts;
-		//this.machine=null;
-		this.machine = new VendingMachine<Euro>(new Euro());
-		
-		switch(progressState){
-			case choiceOfDevise : 
-				this.removeAll();
-				deviseFill();
-				break;
-			case initProducts: 
-				this.removeAll();
-				productsFill();
-				break;
-
-		}
-		
-		
-		
+		productsFill();
+				
 	}
+		
+		
+		
+	
 
-
+	
 
 	public void actionPerformed(ActionEvent e) {
 		
-		switch(progressState){
-		case choiceOfDevise : 
-			// à remplir
-			break;
-		case initProducts: 
-			this.actionPerformedOnProductFill(e);
-			break;
-
-	}
-
+		this.actionPerformedOnProductFill(e);
 		
 	}
-	
+		
+
+
 	private void actionPerformedOnProductFill(ActionEvent e){
 		//boucle pour récupérer l'action dans la JComboBox avec source
 		
@@ -188,6 +162,7 @@ public class Formulaire extends Panel implements ActionListener,ListSelectionLis
 	
 
 	private void productsFill(){
+		form.repaint();
 		form.setTitle("TOTO");
 		form.setPreferredSize(new Dimension(650,430));
 		
@@ -264,20 +239,9 @@ public class Formulaire extends Panel implements ActionListener,ListSelectionLis
 
 	}
 	
-	private void deviseFill(){
-		
-		JPanel devise = new JPanel();
-		this.add("Devise",devise);
-		form.setPreferredSize(new Dimension(650,430));
-		String[] choiceDevise = {"Euro"};
-		JComboBox menuDevise= new JComboBox(choiceDevise);
-		//menuDevise.addActionListener(this);
-		devise.add(menuDevise);
-		form.add(devise);
-		form.pack();
-		form.setVisible(true);
-			
-	}
+
+	
+
 
 
 
