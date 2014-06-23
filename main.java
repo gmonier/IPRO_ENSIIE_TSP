@@ -12,6 +12,7 @@ class main{
 
 		//testEuro();
         testVendingMachine();
+
 	}
 	
 	static void testEuro(){

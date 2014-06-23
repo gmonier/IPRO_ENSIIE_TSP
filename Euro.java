@@ -1,29 +1,12 @@
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-public enum Euro implements Devise {
+public class Euro extends Devise {
 
-	ONECENT (new BigDecimal ("0.01")), 
-	TWOCENTS (new BigDecimal ("0.02")), 
-	FIVECENTS (new BigDecimal ("0.05")), 
-	TENCENTS (new BigDecimal ("0.1")), 
-	TWENTYCENTS (new BigDecimal ("0.2")), 
-	FIFTYCENTS (new BigDecimal ("0.5")), 
-	ONEEURO (new BigDecimal ("1")), 
-	TWOEUROS (new BigDecimal ("2"));
-
-	private final BigDecimal value;
-
-	Euro(BigDecimal valeur){
-		assert valeur.compareTo (BigDecimal.ZERO) > 0;
-		value=valeur;
+	Euro(){
+		this.symbol = "€";
+        this.values = new ArrayList<BigDecimal>(Arrays.asList(new BigDecimal("2"), new BigDecimal("1"), new BigDecimal("0.5"),
+                new BigDecimal("0.2"), new BigDecimal("0.1"), new BigDecimal("0.05"), new BigDecimal("0.02"), new BigDecimal("0.01")));
 	}
-
-	public BigDecimal getValue(){
-		return value;
-	}
-
-	public String toString(){
-		return value + "€";
-	}
-
 }

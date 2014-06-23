@@ -3,19 +3,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class VendingMachine<D extends Enum & Devise> extends GenericMachine<Product,D>{
+public class VendingMachine<D extends Devise> extends GenericMachine<Product>{
 
-    VendingMachine()  {
+
+    // Devise available in the machine
+    protected D devise;
+    // Amount of each devise's coins available in the machine
+    protected HashMap<BigDecimal, Integer> coinsAmount;
+
+    VendingMachine(D devise)  {
         super();
+        this.devise = devise;
+        coinsAmount = new HashMap<BigDecimal, Integer>();
     }
 
-    public Product getProduct(String name) {
-        for (Product product : availableItems) {
-            if (product.getName().equals(name)) {
-                return product;
-            }
-        }
-        return null;
+    protected void addCoinsAmount(BigDecimal value, Integer amount) {
+        coinsAmount.put(value, amount);
+    }
+
+    protected Integer getCoinsAmount(BigDecimal value) {
+        return coinsAmount.get(value);
+    }
+
+    protected ArrayList<String> getDeviseStringValues() {
+        return this.devise.getStringValues();
     }
 
     public void addDrink(String name, BigDecimal price, Integer quantity) {
@@ -36,6 +47,15 @@ public class VendingMachine<D extends Enum & Devise> extends GenericMachine<Prod
         Product product = new Product(name, price);
         this.availableItems.add(product);
         setItemAmount(product, quantity);
+    }
+
+    public Product getProduct(String name) {
+        for (Product product : availableItems) {
+            if (product.getName().equals(name)) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public BigDecimal getProductPrice(String name) {
@@ -90,6 +110,7 @@ public class VendingMachine<D extends Enum & Devise> extends GenericMachine<Prod
         Product product = getProduct(name);
         if (product != null) {
             super.deleteAvailableItem(product);
+            this.coinsAmount.remove(product);
         }
     }
 

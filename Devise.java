@@ -1,7 +1,25 @@
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public interface Devise {
+public abstract class Devise {
 
-	public BigDecimal getValue();
-    public String toString();
+    protected String symbol;
+    protected ArrayList <BigDecimal> values ;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public ArrayList <BigDecimal> getValues() {
+        return this.values;
+    }
+
+    public ArrayList <String> getStringValues() {
+        ArrayList <String> result= new ArrayList<String>();
+        for (BigDecimal value : this.values) {
+            result.add(value.toString());
+        }
+        return result;
+    }
 }
