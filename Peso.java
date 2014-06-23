@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Peso extends Devise {
+public class Peso extends Currency {
 
 	Peso(){
 		this.symbol = "MXN";

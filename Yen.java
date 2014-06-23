@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Yen extends Devise {
+public class Yen extends Currency {
 
 	Yen(){
 		this.symbol = "¥";

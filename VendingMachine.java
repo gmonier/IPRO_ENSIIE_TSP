@@ -3,17 +3,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class VendingMachine<D extends Devise> extends GenericMachine<Product>{
+public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
 
 
-    // Devise available in the machine
-    protected D devise;
-    // Amount of each devise's coins available in the machine
+    // Currency available in the machine
+    protected C currency;
+    // Amount of each currency's coins available in the machine
     protected HashMap<BigDecimal, Integer> coinsAmount;
+    // Contains each coins entered by user in Vending Machine
+    protected ArrayList<BigDecimal> enteredCoins = new ArrayList<BigDecimal>() ;
 
-    VendingMachine(D devise)  {
+    VendingMachine(C currency)  {
         super();
-        this.devise = devise;
+        this.currency = currency;
         coinsAmount = new HashMap<BigDecimal, Integer>();
     }
 
@@ -25,8 +27,41 @@ public class VendingMachine<D extends Devise> extends GenericMachine<Product>{
         return coinsAmount.get(value);
     }
 
+    protected void addEnteredCoin(String coin) {
+        this.enteredCoins.add(new BigDecimal(coin));
+    }
+
+    protected BigDecimal getEnteredSum() {
+        BigDecimal sum = new BigDecimal("0");
+        for (BigDecimal coin : enteredCoins) {
+            sum.add(coin);
+        }
+        return sum;
+    }
+
+    //protected ArrayList <BigDecimal> rendre la monnaie ;
+
+    /* Function called when a user wants to buy a product
+     *  Returned code : 0 when the sell is a success
+     *      1 when product doesn't exist
+     *      2 when user didn't enter enought coins
+     *      3 when vending machine can't give user his change
+     */
+    protected int buyProduct(String productName) {
+        Product product = this.getProduct(productName);
+        if(product == null) {
+            return 1;
+        }
+        if(product.getPrice().subtract(this.getEnteredSum()).compareTo(new BigDecimal("0")) == 1) {
+            return 2;
+        }
+
+        return 154545;
+
+    }
+
     protected ArrayList<String> getDeviseStringValues() {
-        return this.devise.getStringValues();
+        return this.currency.getStringValues();
     }
 
     public void addDrink(String name, BigDecimal price, Integer quantity) {

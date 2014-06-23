@@ -11,7 +11,8 @@ class main{
 
 
 		//testEuro();
-        testVendingMachine();
+        //testVendingMachine();
+        testEuro();
 
 	}
 	
@@ -23,6 +24,11 @@ class main{
 		{
 			System.out.println(Euro.values()[i]);
 		}*/
+
+        Euro euro = new Euro();
+        for(String value : euro.getStringValues()) {
+            System.out.println(value+" ");
+        }
 	}
 
     static void testVendingMachine(){

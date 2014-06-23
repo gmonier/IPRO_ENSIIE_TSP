@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class Devise {
+public abstract class Currency {
 
     protected String symbol;
     protected ArrayList <BigDecimal> values ;

@@ -6,12 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
@@ -106,7 +104,7 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		
 		panelCoinsQty.removeAll();
 		for(String value : list){
-			panelCoinsQty.add(new JLabel(value+" "+this.machine.devise.getSymbol()));
+			panelCoinsQty.add(new JLabel(value+" "+this.machine.currency.getSymbol()));
 			JTextField quantityCoins = new JTextField(6);
 			panelCoinsQty.add(quantityCoins);
 			devisePanel.add(panelCoinsQty,BorderLayout.CENTER);

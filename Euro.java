@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Euro extends Devise {
+public class Euro extends Currency {
 
 	Euro(){
 		this.symbol = "€";
