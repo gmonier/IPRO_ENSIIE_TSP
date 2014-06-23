@@ -17,19 +17,19 @@ class main{
 	
 	static void testEuro(){
         System.out.println("Test Euro");
-		System.out.println(Euro.TWOEUROS);
-		
+		//System.out.println(Euro.TWOEUROS);
+		/*
 		for (int i = 0; i<Euro.values().length; i++)
 		{
 			System.out.println(Euro.values()[i]);
-		}
+		}*/
 	}
 
     static void testVendingMachine(){
         System.out.println("Test Vending Machine");
         //Integer lol = null;
         //assertNotNull("lol can't be null", lol);
-        VendingMachine machine = new VendingMachine<Euro>();
+        VendingMachine machine = new VendingMachine<Euro>(new Euro());
         machine.addDrink("Coca", new BigDecimal("0.4"),15 );
         machine.printVendingMachine();
         machine.addFood("mars", new BigDecimal("0.9"),25 );
