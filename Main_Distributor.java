@@ -8,12 +8,7 @@ public class Main_Distributor {
 		
 		FormCurrency formulaire = new FormCurrency();
 
-		
-		
-		
-		
-		
-		
+
 	}
 
 }

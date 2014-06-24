@@ -23,10 +23,10 @@ import javax.swing.event.ListSelectionListener;
 public class FormCurrency extends Panel implements ActionListener,ListSelectionListener {
 
 
-	protected String typeofdevise="Euro";
+	protected String typeOfCurrency ="Euro";
 	private JFrame form ;
 	private VendingMachine machine = new VendingMachine<Euro>(new Euro());
-	private JPanel devisePanel = new JPanel(new BorderLayout());
+	private JPanel currencyPanel = new JPanel(new BorderLayout());
 	private HashMap<String,JTextField> coinsQtyFromStringValues = new HashMap<String,JTextField>();
 	private JPanel panelCoinsQty= new JPanel(new GridLayout(0,2));
 	
@@ -49,18 +49,18 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		menuDevise.addActionListener(this);
 		menuChoiceDevise.add(menuDevise);
 		
-		devisePanel.add(menuChoiceDevise,BorderLayout.NORTH);
-		devisePanel.add(new JPanel(),BorderLayout.WEST);
-		devisePanel.add(new JPanel(),BorderLayout.EAST);
+		currencyPanel.add(menuChoiceDevise, BorderLayout.NORTH);
+		currencyPanel.add(new JPanel(), BorderLayout.WEST);
+		currencyPanel.add(new JPanel(), BorderLayout.EAST);
 		
 		JPanel menuChoiceDeviseButton = new JPanel();
 		JButton next = new JButton("Next =>");
 		next.addActionListener(this);
 		menuChoiceDeviseButton.add(next,BorderLayout.SOUTH);
-		devisePanel.add(menuChoiceDeviseButton,BorderLayout.SOUTH);
-		this.setDeviseQuantity(this.machine.getDeviseStringValues());
+		currencyPanel.add(menuChoiceDeviseButton, BorderLayout.SOUTH);
+		this.setCurrencyQuantity(this.machine.getCurrencyStringValues());
 		
-		form.add(devisePanel);
+		form.add(currencyPanel);
 		form.pack();
 		form.setVisible(true);
 			
@@ -72,34 +72,32 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
  		
 		if(e.getSource() instanceof JComboBox){
 			JComboBox<String> menu = (JComboBox) e.getSource();
-			typeofdevise=(String)menu.getSelectedItem();
-		
-			switch(typeofdevise){
-				case "Euro" : 
-				this.machine=new VendingMachine<Euro>(new Euro());
-					break;
-				case "Dollar" : 
-					this.machine=new VendingMachine<Dollar>(new Dollar());
-					break;
-				case "Peso" : 
-					this.machine=new VendingMachine<Peso>(new Peso());
-					break;
-				case "Yen" : 
-					this.machine=new VendingMachine<Yen>(new Yen());
-					break;
-				default : 
-					this.machine=new VendingMachine<Euro>(new Euro());
-					break;
-			}
+			typeOfCurrency =(String)menu.getSelectedItem();
+
+            if (typeOfCurrency == "Euro"){
+                this.machine=new VendingMachine<Euro>(new Euro());
+            }
+            else if (typeOfCurrency == "Dollar"){
+                this.machine=new VendingMachine<Dollar>(new Dollar());
+            }
+            else if (typeOfCurrency == "Peso"){
+                this.machine=new VendingMachine<Peso>(new Peso());
+            }
+            else if (typeOfCurrency == "Yen"){
+                this.machine=new VendingMachine<Yen>(new Yen());
+            }
+            else{
+                this.machine=new VendingMachine<Euro>(new Euro());
+            }
 			
-			this.setDeviseQuantity(this.machine.getDeviseStringValues());
+			this.setCurrencyQuantity(this.machine.getCurrencyStringValues());
 		}
 		
 		if(e.getActionCommand()=="Next =>"){
 			System.out.println("Next");
 			boolean error = false;
 			
-			for(String coin : (ArrayList<String>)this.machine.getDeviseStringValues()){
+			for(String coin : (ArrayList<String>)this.machine.getCurrencyStringValues()){
 				if(!error){
 					try{
 						Integer amount =  Integer.parseInt(coinsQtyFromStringValues.get(coin).getText());
@@ -128,24 +126,24 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		
 	}
  	
-	void setDeviseQuantity(ArrayList<String> list){
+	void setCurrencyQuantity(ArrayList<String> list){
 		
-		devisePanel.remove(this.panelCoinsQty);
+		currencyPanel.remove(this.panelCoinsQty);
 		
 		this.panelCoinsQty = new JPanel(new GridLayout(0,2));
 		panelCoinsQty.setPreferredSize(new Dimension(500,200));
 		panelCoinsQty.resetKeyboardActions();
 		
-		//devisePanel.removeAll();
+		//currencyPanel.removeAll();
 
 		
 		for(String value : list){
 			panelCoinsQty.add(new JLabel(value+" "+this.machine.currency.getSymbol()));
 			JTextField quantityCoins = new JTextField(6);
 			panelCoinsQty.add(quantityCoins);
-			devisePanel.add(panelCoinsQty,BorderLayout.CENTER);
+			currencyPanel.add(panelCoinsQty, BorderLayout.CENTER);
 			coinsQtyFromStringValues.put(value,quantityCoins);
-			form.add(devisePanel);
+			form.add(currencyPanel);
 			form.pack();
 			form.setVisible(true);
 		}

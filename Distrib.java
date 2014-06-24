@@ -2,8 +2,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-import javafx.scene.layout.Border;
-
 import javax.swing.*;
 
 	
@@ -46,7 +44,7 @@ public class Distrib extends JPanel implements ActionListener{
 		coins.setBorder(BorderFactory.createTitledBorder("Coins"));
 		ScrollPane scrollPane2 = new ScrollPane();
 		System.out.println(machine.currency.getSymbol());
-		this.initButtonCurrency(machine.getDeviseStringValues(), coins);
+		this.initButtonCurrency(machine.getCurrencyStringValues(), coins);
 		scrollPane2.add(coins);
 		
 		

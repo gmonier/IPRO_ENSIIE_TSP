@@ -38,7 +38,7 @@ public abstract class GenericMachine<I>{
         return itemsAmount.get(item);
     }
 
-    protected void printDevise() {
+    protected void printCurrency() {
         //assertNotNull("Machine's currency can't be null", this.availableCoins);
         //System.out.println(this.availableCoins.toString());
         //D.values();

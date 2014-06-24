@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -15,7 +14,7 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 	protected JTextField denom; 
 	protected JTextField pricing;
 	protected JTextField qty;
-	protected String typeofproduct="Drink";
+	protected String typeOfProduct ="Drink";
 	private JFrame form ;
 	private VendingMachine machine;
 
@@ -50,7 +49,7 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 		if (e.getSource() instanceof JComboBox){
 			JComboBox<String> menu = (JComboBox) e.getSource();
 			//récupére l'item sélectionné dans la JComboBox
-			typeofproduct=(String) menu.getSelectedItem();
+			typeOfProduct =(String) menu.getSelectedItem();
 			
 			
 			}
@@ -114,19 +113,18 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 			}
 			//Conditions respectées adjonction Produits
 			if (!error){
-				
-				switch(typeofproduct){
-				
-				case "Drink" : this.machine.addDrink(denom.getText(),new BigDecimal(pricingString), Integer.parseInt(qty.getText()));
-					break;
-					
-				case "Food" : this.machine.addFood(denom.getText(),new BigDecimal(pricingString), Integer.parseInt(qty.getText()));
-					break;
-					
-				case "Other" : 	this.machine.addProduct(denom.getText(),new BigDecimal(pricingString), Integer.parseInt(qty.getText()));
-				}
 
-				listeModel.addElement(typeofproduct+" : "+denom.getText()+" : price = "+pricing.getText()+"  : qty= "+qty.getText());
+                if (typeOfProduct == "Drink") {
+                    this.machine.addDrink(denom.getText(),new BigDecimal(pricingString), Integer.parseInt(qty.getText()));
+                }
+                else if (typeOfProduct == "Food") {
+                    this.machine.addFood(denom.getText(),new BigDecimal(pricingString), Integer.parseInt(qty.getText()));
+                }
+                else if (typeOfProduct == "Other") {
+                    this.machine.addProduct(denom.getText(),new BigDecimal(pricingString), Integer.parseInt(qty.getText()));
+                }
+
+				listeModel.addElement(typeOfProduct +" : "+denom.getText()+" : price = "+pricing.getText()+"  : qty= "+qty.getText());
 			}
 			
 		}

@@ -39,10 +39,17 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         return sum;
     }
 
-    //protected ArrayList <BigDecimal> rendre la monnaie ;
+    protected ArrayList <BigDecimal> giveChange(BigDecimal sumToGive) {
+        ArrayList<BigDecimal> returnedCoins = new ArrayList<BigDecimal>();
+
+        //giveMaxWithUpperValue(currency.getValues(), BigDecimal upperValue)
+
+
+        return returnedCoins;
+    }
 
     /* Function called when a user wants to buy a product
-     *  Returned code : 0 when the sell is a success
+     *  @return 0 when the sell is a success
      *      1 when product doesn't exist
      *      2 when user didn't enter enought coins
      *      3 when vending machine can't give user his change
@@ -60,7 +67,7 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
 
     }
 
-    protected ArrayList<String> getDeviseStringValues() {
+    protected ArrayList<String> getCurrencyStringValues() {
         return this.currency.getStringValues();
     }
 
@@ -147,6 +154,53 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
             super.deleteAvailableItem(product);
             this.coinsAmount.remove(product);
         }
+    }
+
+    /* Give list's max value
+     * @return null when list is empty
+     */
+    private BigDecimal giveMax(ArrayList <BigDecimal> list) {
+        BigDecimal max;
+
+        if(list.size()==0) {
+            return null;
+        }
+        else {
+            max = list.get(0);
+        }
+
+        for (BigDecimal value : list) {
+            if(max.subtract(value).compareTo(new BigDecimal("0")) !=1 )
+                max = value;
+        }
+
+        return max;
+    }
+
+    /* Give list's max value which is less than upperValue
+     * @return null when list is empty or if there is no value which is less than
+     */
+    private BigDecimal giveMaxWithUpperValue(ArrayList <BigDecimal> list, BigDecimal upperValue) {
+        int i = 0;
+        BigDecimal max = null;
+
+        if(list.size()==0) {
+            return null;
+        }
+
+        while(i<list.size()) {
+            if (max == null && upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1) {
+                max = list.get(i);
+            }
+            else if (upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1 &&
+                     max.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1) {
+                max = list.get(i);
+            }
+
+            i++;
+        }
+
+        return max;
     }
 
     public void printVendingMachine (){
