@@ -34,12 +34,12 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
     protected BigDecimal getEnteredSum() {
         BigDecimal sum = new BigDecimal("0");
         for (BigDecimal coin : enteredCoins) {
-            sum.add(coin);
+            sum=sum.add(coin);
         }
         return sum;
     }
 
-    protected BigDecimal getBackMoney() {
+    protected BigDecimal giveBackMoney() {
         BigDecimal money = getEnteredSum();
         enteredCoins = new ArrayList<BigDecimal>();
 

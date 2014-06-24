@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ public class Distrib extends JPanel implements ActionListener{
 	private JPanel selec= new JPanel();
 	private JPanel admin = new JPanel(new BorderLayout());
 	private JPanel coins = new JPanel();
+	private JLabel inputtedMoney = new JLabel();
 	
 	VendingMachine machine;
 
@@ -45,6 +47,8 @@ public class Distrib extends JPanel implements ActionListener{
 		ScrollPane scrollPane2 = new ScrollPane();
 		System.out.println(machine.currency.getSymbol());
 		this.initButtonCurrency(machine.getCurrencyStringValues(), coins);
+
+
 		scrollPane2.add(coins);
 		
 		
@@ -61,7 +65,7 @@ public class Distrib extends JPanel implements ActionListener{
 		this.add(scrollPane3,BorderLayout.SOUTH);
 		
 		cadre.add(this);
-		cadre.setPreferredSize(new Dimension(400,400));
+		cadre.setPreferredSize(new Dimension(400,440));
 		cadre.pack();
 		cadre.setVisible(true);
 		
@@ -82,11 +86,15 @@ public class Distrib extends JPanel implements ActionListener{
 	void initButtonCurrency(ArrayList<String> list,JPanel panel){
 		
 		for(String name : list){
-			System.out.println("InitButton"+machine.currency.getSymbol());
+			
 			JButton button = new JButton(name+" "+this.machine.currency.getSymbol());
 			panel.add(button);
 			button.addActionListener(this);
 		}
+		panel.add(inputtedMoney);
+		JButton giveBack = new JButton("Return");
+		giveBack.addActionListener(this);
+		panel.add(giveBack);
 	}
 	
 	void setProductQuantity(ArrayList<String> list){
@@ -101,24 +109,52 @@ public class Distrib extends JPanel implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		String str[] = e.getActionCommand().split(" : ");
-		if(machine.getProduct(str[0])!=null){
-			if(machine.getProductAmount(str[0])!=0){
-				System.out.println(e.getActionCommand());
-				System.out.println(" Price : "+machine.getProductPrice(str[0]));
-				
+
+			System.out.println(e.getActionCommand());
+			System.out.println(" Price : "+machine.getProductPrice(str[0]));
+			if(machine.getProduct(str[0])!= null){
+				switch(machine.buyProduct(str[0])){
+					
+					case 0 : 
+						JOptionPane.showMessageDialog(null,"Success !!!","Transaction",JOptionPane.INFORMATION_MESSAGE);
+						setProductQuantity(this.machine.getProducts());
+					break;
+					
+					case 1 : 
+						JOptionPane.showMessageDialog(null,"The Product doesn't exist !!!","Transaction",JOptionPane.INFORMATION_MESSAGE);
+					break;
+					
+					case 2 :
+						JOptionPane.showMessageDialog(null,"You didn't insert enought money !!!","Transaction",JOptionPane.INFORMATION_MESSAGE);
+					break;
+					
+					case 3 : 
+						JOptionPane.showMessageDialog(null,"I'm not able to give you the change !!!","Transaction",JOptionPane.INFORMATION_MESSAGE);
+					break;
+					
+					case 4 :
+						JOptionPane.showMessageDialog(null,"The product is not longer available !!!","Change your choice",JOptionPane.WARNING_MESSAGE);
+					break;
+				}
 			}
-			else{
-				JOptionPane.showMessageDialog(null,"The product is not longer available !!!","Change your choice",JOptionPane.WARNING_MESSAGE);
 				
-			}
-			//traitement pour la vente du produit
-			/*
-			 * if(getProductQuantity(e.getActionCommand())==0){
-			 * 
-			 * }
-			 * */
 			
+			
+		
+		
+		String value[] = e.getActionCommand().split(" ");
+		if(this.machine.currency.getStringValues().contains(value[0])){
+			this.machine.addEnteredCoin(value[0]);
+			inputtedMoney.setText(String.valueOf("  "+String.valueOf(this.machine.getEnteredSum())+" "+this.machine.currency.getSymbol()));
+		
 		}
+		
+		if(e.getActionCommand()=="Return"){
+			BigDecimal money = this.machine.giveBackMoney();
+			inputtedMoney.setText(String.valueOf("  "+String.valueOf(this.machine.getEnteredSum())+" "+this.machine.currency.getSymbol()));
+			JOptionPane.showMessageDialog(null,"The machine give you back : "+String.valueOf(money)+this.machine.currency.getSymbol(),"Money Given Back",JOptionPane.INFORMATION_MESSAGE);
+		}
+		
 		
 	}
 	

@@ -93,6 +93,7 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 			this.setCurrencyQuantity(this.machine.getCurrencyStringValues());
 		}
 		
+		
 		if(e.getActionCommand()=="Next =>"){
 			System.out.println("Next");
 			boolean error = false;
@@ -108,6 +109,7 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 						}
 						else{
 							machine.addCoinsAmount(new BigDecimal(coin), amount );
+							
 						}
 					}
 					catch(Exception except){
@@ -133,8 +135,6 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		this.panelCoinsQty = new JPanel(new GridLayout(0,2));
 		panelCoinsQty.setPreferredSize(new Dimension(500,200));
 		panelCoinsQty.resetKeyboardActions();
-		
-		//currencyPanel.removeAll();
 
 		
 		for(String value : list){
