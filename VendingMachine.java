@@ -39,6 +39,13 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         return sum;
     }
 
+    protected BigDecimal getBackMoney() {
+        BigDecimal money = getEnteredSum();
+        enteredCoins = new ArrayList<BigDecimal>();
+
+        return money ;
+    }
+
     protected ArrayList <BigDecimal> giveChange(BigDecimal sumToGive) {
         ArrayList<BigDecimal> returnedCoins = new ArrayList<BigDecimal>();
 
