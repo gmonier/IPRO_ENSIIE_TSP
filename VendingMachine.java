@@ -48,9 +48,30 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
 
     protected ArrayList <BigDecimal> giveChange(BigDecimal sumToGive) {
         ArrayList<BigDecimal> returnedCoins = new ArrayList<BigDecimal>();
+        BigDecimal max = giveMax(currency.getValues());
 
-        //giveMaxWithUpperValue(currency.getValues(), BigDecimal upperValue)
-
+        // Determine if machine can give back
+        if(max != null)
+            while(sumToGive.compareTo(new BigDecimal("0")) != 0 && max != null) {
+                if (sumToGive.subtract(max).compareTo(new BigDecimal("0")) != -1 && getCoinsAmount(max)>0) {
+                    sumToGive = sumToGive.subtract(max);
+                    returnedCoins.add(max);
+                }
+                else {
+                    max = giveMaxWithUpperValue(currency.getValues(), max);
+                }
+            }
+        // machine can't give back
+        if(sumToGive.compareTo(new BigDecimal("0")) != 0) {
+            returnedCoins = null;
+        }
+        // machine can give back
+        else {
+            for (BigDecimal value : returnedCoins) {
+                addCoinsAmount(value, getCoinsAmount(value)+1);
+            }
+            this.enteredCoins = new ArrayList<BigDecimal>();
+        }
 
         return returnedCoins;
     }
@@ -60,6 +81,7 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
      *      1 when product doesn't exist
      *      2 when user didn't enter enought coins
      *      3 when vending machine can't give user his change
+     *      4 when product is not longer
      */
     protected int buyProduct(String productName) {
         Product product = this.getProduct(productName);
@@ -69,8 +91,15 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         if(product.getPrice().subtract(this.getEnteredSum()).compareTo(new BigDecimal("0")) == 1) {
             return 2;
         }
-
-        return 154545;
+        if(getProductAmount(productName)<= 0) {
+            return 4;
+        }
+        if(giveChange(getProductPrice(productName))==null) {
+            return 3;
+        }
+        else {
+            return 0;
+        }
 
     }
 
