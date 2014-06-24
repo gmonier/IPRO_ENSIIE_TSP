@@ -4,12 +4,15 @@ import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
@@ -24,6 +27,8 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 	private JFrame form ;
 	private VendingMachine machine = new VendingMachine<Euro>(new Euro());
 	private JPanel devisePanel = new JPanel(new BorderLayout());
+	private HashMap<String,JTextField> coinsQtyFromStringValues = new HashMap<String,JTextField>();
+	private JPanel panelCoinsQty= new JPanel(new GridLayout(0,2));
 	
 	public FormCurrency(){
 		
@@ -43,6 +48,7 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		JComboBox menuDevise= new JComboBox(choiceDevise);
 		menuDevise.addActionListener(this);
 		menuChoiceDevise.add(menuDevise);
+		
 		devisePanel.add(menuChoiceDevise,BorderLayout.NORTH);
 		devisePanel.add(new JPanel(),BorderLayout.WEST);
 		devisePanel.add(new JPanel(),BorderLayout.EAST);
@@ -88,10 +94,35 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 			
 			this.setDeviseQuantity(this.machine.getDeviseStringValues());
 		}
+		
 		if(e.getActionCommand()=="Next =>"){
 			System.out.println("Next");
-			new FormProducts(machine);
-			form.dispose();
+			boolean error = false;
+			
+			for(String coin : (ArrayList<String>)this.machine.getDeviseStringValues()){
+				if(!error){
+					try{
+						Integer amount =  Integer.parseInt(coinsQtyFromStringValues.get(coin).getText());
+						
+						if(amount<0){
+							JOptionPane.showMessageDialog(null,"The quantity of "+coin+" "+machine.currency.getSymbol()+ " must be positive !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
+							error=true;
+						}
+						else{
+							machine.addCoinsAmount(new BigDecimal(coin), amount );
+						}
+					}
+					catch(Exception except){
+						JOptionPane.showMessageDialog(null,"The quantity of "+coin+" "+machine.currency.getSymbol()+ " must be an Integer !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
+						error=true;
+					}
+					System.out.println("coin"+coin+"qty"+machine.getCoinsAmount(new BigDecimal(coin)));			
+				}
+			}
+			if(!error){
+				new FormProducts(machine);
+				form.dispose();
+			}
 			
 		}
 		
@@ -99,21 +130,31 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
  	
 	void setDeviseQuantity(ArrayList<String> list){
 		
-		JPanel panelCoinsQty = new JPanel(new GridLayout(0,2));
-		panelCoinsQty.setPreferredSize(new Dimension(500,200));
+		devisePanel.remove(this.panelCoinsQty);
 		
-		panelCoinsQty.removeAll();
+		this.panelCoinsQty = new JPanel(new GridLayout(0,2));
+		panelCoinsQty.setPreferredSize(new Dimension(500,200));
+		panelCoinsQty.resetKeyboardActions();
+		
+		//devisePanel.removeAll();
+
+		
 		for(String value : list){
 			panelCoinsQty.add(new JLabel(value+" "+this.machine.currency.getSymbol()));
 			JTextField quantityCoins = new JTextField(6);
 			panelCoinsQty.add(quantityCoins);
 			devisePanel.add(panelCoinsQty,BorderLayout.CENTER);
+			coinsQtyFromStringValues.put(value,quantityCoins);
 			form.add(devisePanel);
 			form.pack();
 			form.setVisible(true);
 		}
 		
 	}
+	
+	
+	
+	
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {

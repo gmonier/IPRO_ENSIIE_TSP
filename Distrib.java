@@ -13,6 +13,7 @@ public class Distrib extends JPanel implements ActionListener{
 	
 	private JPanel selec= new JPanel();
 	private JPanel admin = new JPanel(new BorderLayout());
+	private JPanel coins = new JPanel();
 	
 	VendingMachine machine;
 
@@ -22,7 +23,7 @@ public class Distrib extends JPanel implements ActionListener{
 		this.machine=machine;
 		JFrame cadre = new JFrame("Vending Machine");
 		cadre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		cadre.setResizable(false);
+		cadre.setResizable(true);
 		
 
 		
@@ -39,23 +40,27 @@ public class Distrib extends JPanel implements ActionListener{
 		
 
 		
-		JPanel coins = new JPanel();
+		
 		BoxLayout layout2 = new BoxLayout(coins, BoxLayout.Y_AXIS);
 		coins.setLayout(layout2);
 		coins.setBorder(BorderFactory.createTitledBorder("Coins"));
-		coins.add(new JButton("2€"));
+		ScrollPane scrollPane2 = new ScrollPane();
+		System.out.println(machine.currency.getSymbol());
+		this.initButtonCurrency(machine.getDeviseStringValues(), coins);
+		scrollPane2.add(coins);
+		
 		
 		admin.setLayout(new GridLayout(0,1));
 		admin.setBorder(BorderFactory.createTitledBorder("Administration"));
-		ScrollPane scrollPane2 = new ScrollPane();
-		scrollPane2.add(admin);
+		ScrollPane scrollPane3 = new ScrollPane();
+		scrollPane3.add(admin);
 		
-		scrollPane2.getForeground();
+		scrollPane3.getForeground();
 		
 		
 		this.add(scrollPane1,BorderLayout.CENTER);
-		this.add(coins,BorderLayout.EAST);
-		this.add(scrollPane2,BorderLayout.SOUTH);
+		this.add(scrollPane2,BorderLayout.EAST);
+		this.add(scrollPane3,BorderLayout.SOUTH);
 		
 		cadre.add(this);
 		cadre.setPreferredSize(new Dimension(400,400));
@@ -74,6 +79,16 @@ public class Distrib extends JPanel implements ActionListener{
 
 		}
 		setProductQuantity(list);
+	}
+	
+	void initButtonCurrency(ArrayList<String> list,JPanel panel){
+		
+		for(String name : list){
+			System.out.println("InitButton"+machine.currency.getSymbol());
+			JButton button = new JButton(name+" "+this.machine.currency.getSymbol());
+			panel.add(button);
+			button.addActionListener(this);
+		}
 	}
 	
 	void setProductQuantity(ArrayList<String> list){
