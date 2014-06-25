@@ -79,7 +79,7 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 				try{
 					i=new BigDecimal(pricingString);
 					if(i.compareTo(new BigDecimal(0))!=1){
-						JOptionPane.showMessageDialog(null,"The price must be a positive/not null Integer !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"The price must be a strictly positive Integer !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
 						error=true;
 					}
 				}
@@ -101,7 +101,7 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 					i=Integer.parseInt(qty.getText());
 					
 					if(i<=0){
-						JOptionPane.showMessageDialog(null,"The quantity must be positive !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"The quantity must be strictly positive !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
 						error=true;
 					}
 				}
@@ -161,7 +161,7 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 
 	private void productsFill(){
 		form.repaint();
-		form.setTitle("TOTO");
+		form.setTitle("Products settings");
 		form.setPreferredSize(new Dimension(650,430));
 		
 		

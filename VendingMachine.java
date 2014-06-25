@@ -50,14 +50,20 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         ArrayList<BigDecimal> returnedCoins = new ArrayList<BigDecimal>();
         BigDecimal max = giveMax(currency.getValues());
 
+        System.out.println("giveChange max: "+String.valueOf(max));
         // Determine if machine can give back
         if(max != null)
             while(sumToGive.compareTo(new BigDecimal("0")) != 0 && max != null) {
+                System.out.println("giveChange max: "+String.valueOf(max));
+                System.out.println("while giveChange max: "+String.valueOf(max)+" compareTo :"+String.valueOf(sumToGive.compareTo(new BigDecimal("0")) != 0));
+                System.out.println("  if compareTo"+String.valueOf(sumToGive.subtract(max).compareTo(new BigDecimal("0")) != -1)+" getCoins "+String.valueOf(getCoinsAmount(max)>0));
                 if (sumToGive.subtract(max).compareTo(new BigDecimal("0")) != -1 && getCoinsAmount(max)>0) {
+                    System.out.println(" if");
                     sumToGive = sumToGive.subtract(max);
                     returnedCoins.add(max);
                 }
                 else {
+                    System.out.println(" else");
                     max = giveMaxWithUpperValue(currency.getValues(), max);
                 }
             }
@@ -65,13 +71,7 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         if(sumToGive.compareTo(new BigDecimal("0")) != 0) {
             returnedCoins = null;
         }
-        // machine can give back
-        else {
-            for (BigDecimal value : returnedCoins) {
-                addCoinsAmount(value, getCoinsAmount(value)+1);
-            }
-            this.enteredCoins = new ArrayList<BigDecimal>();
-        }
+
 
         return returnedCoins;
     }
@@ -84,20 +84,38 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
      *      4 when product is not longer
      */
     protected int buyProduct(String productName) {
+        System.out.println("buyProduct!!!!!");
         Product product = this.getProduct(productName);
         if(product == null) {
+            System.out.println("buyProduct 1");
             return 1;
         }
         if(product.getPrice().subtract(this.getEnteredSum()).compareTo(new BigDecimal("0")) == 1) {
+            System.out.println("buyProduct 2");
             return 2;
         }
         if(getProductAmount(productName)<= 0) {
+            System.out.println("buyProduct 4");
             return 4;
         }
-        if(giveChange(getProductPrice(productName))==null) {
+
+        ArrayList<BigDecimal> giveChangeList = giveChange(product.getPrice().subtract(this.getEnteredSum()));
+        if(giveChangeList==null) {
+            System.out.println("buyProduct 3");
             return 3;
         }
+        // the buy is a success
         else {
+            // Entered coins are put in machine's checkout
+            for (BigDecimal value : giveChangeList) {
+                addCoinsAmount(value, getCoinsAmount(value)+1);
+            }
+            this.enteredCoins = new ArrayList<BigDecimal>();
+
+            // Quantity is decreased
+            setProductAmount(productName,getProductAmount(productName)-1);
+
+            System.out.println("buyProduct 0");
             return 0;
         }
 
@@ -225,11 +243,14 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         }
 
         while(i<list.size()) {
-            if (max == null && upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1) {
+            System.out.println("i "+String.valueOf(i)+" list.size "+String.valueOf(list.size())+" max "+String.valueOf(max));
+            if (max == null && upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == -1) {
+                System.out.println("giveMaxUpper if");
                 max = list.get(i);
             }
-            else if (upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1 &&
+            else if (upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == -1 &&
                      max.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1) {
+                System.out.println("giveMaxUpper else if");
                 max = list.get(i);
             }
 

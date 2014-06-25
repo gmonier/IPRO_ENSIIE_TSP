@@ -111,7 +111,7 @@ public class Distrib extends JPanel implements ActionListener{
 		String str[] = e.getActionCommand().split(" : ");
 
 			System.out.println(e.getActionCommand());
-			System.out.println(" Price : "+machine.getProductPrice(str[0]));
+			System.out.println(" Price : "+String.valueOf(machine.getProductPrice(str[0])));
 			if(machine.getProduct(str[0])!= null){
 				switch(machine.buyProduct(str[0])){
 					

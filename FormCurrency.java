@@ -40,7 +40,8 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 	}
 	
 	private void deviseFill(){
-		
+
+        form.setTitle("Currency settings");
 		form.setPreferredSize(new Dimension(650,430));
 		
 		JPanel menuChoiceDevise = new JPanel();
