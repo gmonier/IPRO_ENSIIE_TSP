@@ -11,7 +11,7 @@ import javax.swing.*;
 public class Distrib extends JPanel implements ActionListener{
 	
 	private JPanel selec= new JPanel();
-	private JPanel admin = new JPanel(new BorderLayout());
+	private JPanel admin = new JPanel();
 	private JPanel coins = new JPanel();
 	private JLabel inputtedMoney = new JLabel();
 	
@@ -33,7 +33,7 @@ public class Distrib extends JPanel implements ActionListener{
 		
 		
 		
-		selec.setBorder(BorderFactory.createTitledBorder("Produits"));
+		selec.setBorder(BorderFactory.createTitledBorder("Products"));
 		ScrollPane scrollPane1 = new ScrollPane();
 		initButtonProducts(machine.getProducts(),selec);	
 		scrollPane1.add(selec);
@@ -52,7 +52,7 @@ public class Distrib extends JPanel implements ActionListener{
 		scrollPane2.add(coins);
 		
 		
-		admin.setLayout(new GridLayout(0,1));
+		admin.setLayout(new BoxLayout(admin,BoxLayout.X_AXIS));
 		admin.setBorder(BorderFactory.createTitledBorder("Administration"));
 		ScrollPane scrollPane3 = new ScrollPane();
 		scrollPane3.add(admin);
@@ -95,29 +95,51 @@ public class Distrib extends JPanel implements ActionListener{
 		JButton giveBack = new JButton("Return");
 		giveBack.addActionListener(this);
 		panel.add(giveBack);
+		setCoinsQuantity(list);
 	}
 	
 	void setProductQuantity(ArrayList<String> list){
-		
+		int i=0;
+		JPanel ProductQty = new JPanel(new GridLayout(8,1));
 		admin.removeAll();
+		ProductQty.removeAll();
+		ProductQty.add(new JLabel("Products Quantity : "));
 		for (String name : list){
-			admin.add(new JLabel(name+" : qty="+String.valueOf(machine.getProductAmount(name))));	
+			ProductQty.add(new JLabel(name+" : qty="+String.valueOf(machine.getProductAmount(name)))).setLocation(i,0);
+			i++;
+			
 		}
-		
-
+		admin.add(ProductQty);
 	}
+	
+	void setCoinsQuantity(ArrayList<String> list){
+		int i=0;
+		JPanel CoinsQty = new JPanel(new GridLayout(0,1));
+		CoinsQty.add(new JLabel("Coins Quantity : "));
+		for(String value : list){
+			CoinsQty.add(new JLabel(value+this.machine.currency.getSymbol()+" : qty="+this.machine.getCoinsAmount(new BigDecimal(value)))).setLocation(i,1);;
+			i++;
+		}
+		admin.add(CoinsQty);
+	}
+		
 
 	public void actionPerformed(ActionEvent e) {
 		String str[] = e.getActionCommand().split(" : ");
 
 			System.out.println(e.getActionCommand());
+
 			System.out.println(" Price : "+String.valueOf(machine.getProductPrice(str[0])));
+
 			if(machine.getProduct(str[0])!= null){
 				switch(machine.buyProduct(str[0])){
 					
 					case 0 : 
 						JOptionPane.showMessageDialog(null,"Success !!!","Transaction",JOptionPane.INFORMATION_MESSAGE);
 						setProductQuantity(this.machine.getProducts());
+						setCoinsQuantity(machine.getCurrencyStringValues());
+						BigDecimal money = this.machine.giveBackMoney();
+						inputtedMoney.setText(String.valueOf("  "+String.valueOf(this.machine.getEnteredSum())+" "+this.machine.currency.getSymbol()));
 					break;
 					
 					case 1 : 
@@ -136,6 +158,8 @@ public class Distrib extends JPanel implements ActionListener{
 						JOptionPane.showMessageDialog(null,"The product is not longer available !!!","Change your choice",JOptionPane.WARNING_MESSAGE);
 					break;
 				}
+				
+				
 			}
 				
 			
