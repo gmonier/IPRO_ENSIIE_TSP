@@ -12,6 +12,8 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
     protected HashMap<BigDecimal, Integer> coinsAmount;
     // Contains each coins entered by user in Vending Machine
     protected ArrayList<BigDecimal> enteredCoins = new ArrayList<BigDecimal>() ;
+    // Value of change give to user
+    protected BigDecimal changeValue;
 
     VendingMachine(C currency)  {
         super();
@@ -39,6 +41,19 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         return sum;
     }
 
+    protected BigDecimal getChangeValue() {
+        return changeValue;
+    }
+
+    protected boolean isEnteredCoinPresent( BigDecimal specificCoin) {
+        boolean present = false;
+        for (BigDecimal coin : enteredCoins) {
+            if(coin.compareTo(specificCoin) == 0)
+                present = true;
+        }
+        return present;
+    }
+
     protected BigDecimal giveBackMoney() {
         BigDecimal money = getEnteredSum();
         enteredCoins = new ArrayList<BigDecimal>();
@@ -57,7 +72,8 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
                 System.out.println("giveChange max: "+String.valueOf(max));
                 System.out.println("while giveChange max: "+String.valueOf(max)+" compareTo :"+String.valueOf(sumToGive.compareTo(new BigDecimal("0")) != 0));
                 System.out.println("  if compareTo"+String.valueOf(sumToGive.subtract(max).compareTo(new BigDecimal("0")) != -1)+" getCoins "+String.valueOf(getCoinsAmount(max)>0));
-                if (sumToGive.subtract(max).compareTo(new BigDecimal("0")) != -1 && getCoinsAmount(max)>0) {
+                System.out.println("sumToGive " + sumToGive);
+                if (sumToGive.subtract(max).compareTo(new BigDecimal("0")) != -1 && (getCoinsAmount(max)>0 || isEnteredCoinPresent(max))) {
                     System.out.println(" if");
                     sumToGive = sumToGive.subtract(max);
                     returnedCoins.add(max);
@@ -99,18 +115,26 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
             return 4;
         }
 
-        ArrayList<BigDecimal> giveChangeList = giveChange(product.getPrice().subtract(this.getEnteredSum()));
+        ArrayList<BigDecimal> giveChangeList = giveChange(product.getPrice().subtract(this.getEnteredSum()).negate());
         if(giveChangeList==null) {
             System.out.println("buyProduct 3");
             return 3;
         }
         // the buy is a success
         else {
+
             // Entered coins are put in machine's checkout
-            for (BigDecimal value : giveChangeList) {
+            for (BigDecimal value : enteredCoins) {
                 addCoinsAmount(value, getCoinsAmount(value)+1);
             }
             this.enteredCoins = new ArrayList<BigDecimal>();
+
+            // Change coins are given to user
+            this.changeValue = new BigDecimal("0") ;
+            for (BigDecimal value : giveChangeList) {
+                addCoinsAmount(value, getCoinsAmount(value)-1);
+                changeValue=changeValue.add(value);
+            }
 
             // Quantity is decreased
             setProductAmount(productName,getProductAmount(productName)-1);
@@ -244,12 +268,15 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
 
         while(i<list.size()) {
             System.out.println("i "+String.valueOf(i)+" list.size "+String.valueOf(list.size())+" max "+String.valueOf(max));
-            if (max == null && upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == -1) {
+            System.out.println("upper " + upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")));
+            if (max!=null)
+                System.out.println("max "+max.subtract(list.get(i)).compareTo(new BigDecimal("0")));
+            if (max == null && upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == 1) {
                 System.out.println("giveMaxUpper if");
                 max = list.get(i);
             }
-            else if (upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == -1 &&
-                     max.subtract(list.get(i)).compareTo(new BigDecimal("0")) != 1) {
+            else if (upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == 1 &&
+                     max.subtract(list.get(i)).compareTo(new BigDecimal("0")) == -1) {
                 System.out.println("giveMaxUpper else if");
                 max = list.get(i);
             }
@@ -277,5 +304,13 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
             }
         }
 
+    }
+
+    public void printVendingMachineMoney (){
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+        ArrayList<Class> classes = new ArrayList<Class>(Arrays.asList(Drink.class, Food.class, Product.class));
+        for (Integer value : this.coinsAmount.values()) {
+            System.out.println("   "+value.toString());
+        }
     }
 }

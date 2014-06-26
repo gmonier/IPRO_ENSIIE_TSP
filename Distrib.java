@@ -135,11 +135,11 @@ public class Distrib extends JPanel implements ActionListener{
 				switch(machine.buyProduct(str[0])){
 					
 					case 0 : 
-						JOptionPane.showMessageDialog(null,"Success !!!","Transaction",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Success !!! Machine give you back "+String.valueOf(machine.getChangeValue())+machine.currency.getSymbol(),"Transaction",JOptionPane.INFORMATION_MESSAGE);
 						setProductQuantity(this.machine.getProducts());
 						setCoinsQuantity(machine.getCurrencyStringValues());
 						BigDecimal money = this.machine.giveBackMoney();
-						inputtedMoney.setText(String.valueOf("  "+String.valueOf(this.machine.getEnteredSum())+" "+this.machine.currency.getSymbol()));
+						inputtedMoney.setText(String.valueOf("  " + String.valueOf(this.machine.getEnteredSum()) + " " + this.machine.currency.getSymbol()));
 					break;
 					
 					case 1 : 
@@ -161,7 +161,6 @@ public class Distrib extends JPanel implements ActionListener{
 				
 				
 			}
-				
 			
 			
 		
