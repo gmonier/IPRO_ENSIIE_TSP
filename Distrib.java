@@ -53,7 +53,7 @@ public class Distrib extends JPanel implements ActionListener{
 		
 		
 		admin.setLayout(new BoxLayout(admin,BoxLayout.X_AXIS));
-		admin.setBorder(BorderFactory.createTitledBorder("Administration"));
+		//admin.setBorder(BorderFactory.createTitledBorder("Administration"));
 		ScrollPane scrollPane3 = new ScrollPane();
 		scrollPane3.add(admin);
 		
@@ -75,7 +75,7 @@ public class Distrib extends JPanel implements ActionListener{
 	void initButtonProducts(ArrayList<String> list,JPanel panel){
 		
 		for (String name : list){
-			JButton button = new JButton(name+" : "+String.valueOf(machine.getProductPrice(name)));
+			JButton button = new JButton(name+" : "+String.valueOf(machine.getProductPrice(name))+this.machine.currency.getSymbol());
 			panel.add(button);
 			button.addActionListener(this); // implémenter un listener pour les produits
 
@@ -103,7 +103,7 @@ public class Distrib extends JPanel implements ActionListener{
 		JPanel ProductQty = new JPanel(new GridLayout(8,1));
 		admin.removeAll();
 		ProductQty.removeAll();
-		ProductQty.add(new JLabel("Products Quantity : "));
+		ProductQty.setBorder(BorderFactory.createTitledBorder("Products Quantity"));
 		for (String name : list){
 			ProductQty.add(new JLabel(name+" : qty="+String.valueOf(machine.getProductAmount(name)))).setLocation(i,0);
 			i++;
@@ -115,7 +115,7 @@ public class Distrib extends JPanel implements ActionListener{
 	void setCoinsQuantity(ArrayList<String> list){
 		int i=0;
 		JPanel CoinsQty = new JPanel(new GridLayout(0,1));
-		CoinsQty.add(new JLabel("Coins Quantity : "));
+		CoinsQty.setBorder(BorderFactory.createTitledBorder("Products Quantity"));
 		for(String value : list){
 			CoinsQty.add(new JLabel(value+this.machine.currency.getSymbol()+" : qty="+this.machine.getCoinsAmount(new BigDecimal(value)))).setLocation(i,1);;
 			i++;
