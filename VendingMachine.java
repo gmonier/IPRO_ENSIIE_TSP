@@ -254,7 +254,7 @@ public class VendingMachine<C extends Currency> extends GenericMachine<Product>{
         }
 
         while(i<list.size()) {
-            if (max!=null)
+            
             if (max == null && upperValue.subtract(list.get(i)).compareTo(new BigDecimal("0")) == 1) {
                 max = list.get(i);
             }
