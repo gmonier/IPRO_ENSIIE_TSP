@@ -37,28 +37,4 @@ public abstract class GenericMachine<I>{
     protected Integer getItemAmount(I item) {
         return itemsAmount.get(item);
     }
-
-    protected void printCurrency() {
-        //assertNotNull("Machine's currency can't be null", this.availableCoins);
-        //System.out.println(this.availableCoins.toString());
-        //D.values();
-    }
-
-	/*public String getName(){
-
-		return name;
-	
-	}
-
-	public BigDecimal getPrice(){
-
-		return price;
-	}
-
-	public String toString(){
-
-		String s = "Le produit "+name+" coûte : "+price;
-		return s;
-
-	}*/
 }

@@ -28,19 +28,13 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 		productsFill();
 				
 	}
-		
-		
-		
-	
 
-	
 
 	public void actionPerformed(ActionEvent e) {
 		
 		this.actionPerformedOnProductFill(e);
 		
 	}
-		
 
 
 	private void actionPerformedOnProductFill(ActionEvent e){
@@ -150,11 +144,7 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 			else{
 				JOptionPane.showMessageDialog(null,"The Vending machine can't be empty!!!","Settings",JOptionPane.WARNING_MESSAGE);
 			}
-			machine.printVendingMachine();
-			machine.printVendingMachineDetails();
-			
 
-			
 		}
 	}
 	
@@ -178,7 +168,6 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 		laListe.addListSelectionListener(this);
 		//ajout de la liste au scrollpane
 		scrollPane.add(laListe);
-		//scrollPane.setForeground(Color.GRAY);
 		product.add(scrollPane);
 		
 		
@@ -230,18 +219,10 @@ public class FormProducts extends Panel implements ActionListener,ListSelectionL
 		this.add("Product",pos);
 		form.add(this);
 		
-
-		
 		form.pack();
 		form.setVisible(true);
 
 	}
-	
-
-	
-
-
-
 
 
 	public void valueChanged(ListSelectionEvent e) {

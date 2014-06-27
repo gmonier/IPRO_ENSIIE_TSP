@@ -45,7 +45,6 @@ public class Distrib extends JPanel implements ActionListener{
 		coins.setLayout(layout2);
 		coins.setBorder(BorderFactory.createTitledBorder("Coins"));
 		ScrollPane scrollPane2 = new ScrollPane();
-		System.out.println(machine.currency.getSymbol());
 		this.initButtonCurrency(machine.getCurrencyStringValues(), coins);
 
 
@@ -127,10 +126,6 @@ public class Distrib extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		String str[] = e.getActionCommand().split(" : ");
 
-			System.out.println(e.getActionCommand());
-
-			System.out.println(" Price : "+String.valueOf(machine.getProductPrice(str[0])));
-
 			if(machine.getProduct(str[0])!= null){
 				switch(machine.buyProduct(str[0])){
 					
@@ -177,11 +172,5 @@ public class Distrib extends JPanel implements ActionListener{
 			inputtedMoney.setText(String.valueOf("  "+String.valueOf(this.machine.getEnteredSum())+" "+this.machine.currency.getSymbol()));
 			JOptionPane.showMessageDialog(null,"The machine give you back : "+String.valueOf(money)+this.machine.currency.getSymbol(),"Money Given Back",JOptionPane.INFORMATION_MESSAGE);
 		}
-		
-		
 	}
-	
-	
-
-
 }

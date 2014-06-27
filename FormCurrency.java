@@ -96,7 +96,6 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		
 		
 		if(e.getActionCommand()=="Next =>"){
-			System.out.println("Next");
 			boolean error = false;
 			
 			for(String coin : (ArrayList<String>)this.machine.getCurrencyStringValues()){
@@ -117,7 +116,6 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 						JOptionPane.showMessageDialog(null,"The quantity of "+coin+" "+machine.currency.getSymbol()+ " must be an Integer !!!","Erreur de Saisie",JOptionPane.WARNING_MESSAGE);
 						error=true;
 					}
-					System.out.println("coin"+coin+"qty"+machine.getCoinsAmount(new BigDecimal(coin)));			
 				}
 			}
 			if(!error){
@@ -150,9 +148,6 @@ public class FormCurrency extends Panel implements ActionListener,ListSelectionL
 		}
 		
 	}
-	
-	
-	
 	
 
 	@Override
